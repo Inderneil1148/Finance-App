@@ -39,7 +39,7 @@ export const OverviewCard: React.FC<OverviewCardProps> = ({
   };
 
   return (
-    <div className="bg-white rounded-3xl p-5 sm:p-6 shadow-xs border border-[#E0E2EC] space-y-4 sm:space-y-5 transition-all">
+    <div className="bg-white rounded-2xl sm:rounded-3xl p-4 sm:p-6 shadow-xs border border-[#E0E2EC] space-y-3.5 sm:space-y-5 transition-all">
       {/* Top row: Net Cash Flow with Material 3 Chip */}
       <div className="flex items-start justify-between gap-3">
         <div className="min-w-0 flex-1">

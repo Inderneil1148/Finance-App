@@ -334,18 +334,18 @@ export const TransactionList: React.FC<TransactionListProps> = ({
                         </div>
 
                         {/* Category & Tags Row */}
-                        <div className="flex items-center gap-1.5 text-xs text-[#444746] mt-0.5 flex-wrap">
-                          <span className="truncate max-w-[120px] text-[11px] font-medium text-[#444746]">
+                        <div className="flex items-center gap-1.5 text-xs text-[#444746] mt-0.5 min-w-0 overflow-hidden">
+                          <span className="truncate max-w-[85px] sm:max-w-[120px] text-[11px] font-medium text-[#444746] shrink-0">
                             {tx.category}
                           </span>
 
                           {tx.customTags && tx.customTags.length > 0 && (
                             <>
-                              <span className="text-[#C4C7C5] text-[10px]" aria-hidden="true">
+                              <span className="text-[#C4C7C5] text-[10px] shrink-0" aria-hidden="true">
                                 ·
                               </span>
-                              <div className="flex items-center gap-1 flex-wrap">
-                                {tx.customTags.map((tagName) => {
+                              <div className="flex items-center gap-1 min-w-0 overflow-hidden">
+                                {tx.customTags.slice(0, 2).map((tagName) => {
                                   const tagObj = tagMap.get(tagName);
                                   return (
                                     <TagChip
@@ -357,6 +357,14 @@ export const TransactionList: React.FC<TransactionListProps> = ({
                                     />
                                   );
                                 })}
+                                {tx.customTags.length > 2 && (
+                                  <span
+                                    className="text-[10px] font-bold text-[#444746] bg-[#E0E2EC] px-1.5 py-0.5 rounded-full shrink-0"
+                                    title={tx.customTags.slice(2).map((t) => `#${t}`).join(', ')}
+                                  >
+                                    +{tx.customTags.length - 2}
+                                  </span>
+                                )}
                               </div>
                             </>
                           )}
@@ -364,10 +372,10 @@ export const TransactionList: React.FC<TransactionListProps> = ({
                       </div>
 
                       {/* Right: Amount & Chevron */}
-                      <div className="text-right shrink-0 flex items-center gap-1.5">
+                      <div className="text-right shrink-0 flex items-center gap-1.5 pl-1">
                         <div>
                           <div
-                            className={`text-sm font-semibold tabular-nums tracking-tight ${
+                            className={`text-sm font-semibold tabular-nums tracking-tight whitespace-nowrap ${
                               isExpense ? 'text-[#1F1F1F]' : 'text-[#146C2E]'
                             }`}
                           >
@@ -380,7 +388,7 @@ export const TransactionList: React.FC<TransactionListProps> = ({
                             </div>
                           )}
                         </div>
-                        <ChevronRight size={14} className="text-[#C4C7C5]" />
+                        <ChevronRight size={14} className="text-[#C4C7C5] shrink-0" />
                       </div>
                     </div>
                   );

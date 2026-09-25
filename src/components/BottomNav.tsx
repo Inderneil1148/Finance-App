@@ -34,8 +34,8 @@ export const BottomNav: React.FC<BottomNavProps> = ({
       <div
         className={`${
           isMobileSimulator
-            ? 'absolute bottom-20 right-4 z-50'
-            : 'fixed bottom-22 right-4 sm:right-6 md:hidden z-50'
+            ? 'absolute bottom-20 right-4 z-30'
+            : 'fixed bottom-22 right-4 sm:right-6 md:hidden z-30'
         }`}
       >
         <button

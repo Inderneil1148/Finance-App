@@ -3,7 +3,6 @@ import path from 'path';
 import zlib from 'zlib';
 
 function createPNG(width, height, isMaskable = false) {
-  // CRC table
   const crcTable = [];
   for (let n = 0; n < 256; n++) {
     let c = n;
@@ -33,96 +32,101 @@ function createPNG(width, height, isMaskable = false) {
     return buf;
   }
 
-  // RGBA buffer: row has 1 filter byte (0) + width * 4 bytes
   const rowStride = 1 + width * 4;
   const rawData = Buffer.alloc(height * rowStride);
 
-  const cx = width / 2;
-  const cy = height / 2;
-  const outerRadius = width * 0.45;
-  const safeRadius = isMaskable ? width * 0.35 : width * 0.42;
+  // Centered pure typography on deep black background
+  // Lime line at y = 0.38, text from y = 0.45 to y = 0.65
+  const lineY = height * (isMaskable ? 0.40 : 0.38);
+  const lineX1 = width * (isMaskable ? 0.22 : 0.16);
+  const lineX2 = width * (isMaskable ? 0.78 : 0.84);
+  const dotR = width * (isMaskable ? 0.026 : 0.030);
 
-  // Material You primary blue & tones
-  // #0B57D0 -> 11, 87, 208
-  // #1A73E8 -> 26, 115, 232
-  // #D3E3FD -> 211, 227, 253
-  // White -> 255, 255, 255
+  const textTop = height * (isMaskable ? 0.46 : 0.45);
+  const textBottom = height * (isMaskable ? 0.64 : 0.65);
 
   for (let y = 0; y < height; y++) {
     const rowOffset = y * rowStride;
-    rawData[rowOffset] = 0; // Filter None
+    rawData[rowOffset] = 0;
 
     for (let x = 0; x < width; x++) {
       const pxOffset = rowOffset + 1 + x * 4;
-      const dx = x - cx;
-      const dy = y - cy;
-      const dist = Math.sqrt(dx * dx + dy * dy);
 
-      if (isMaskable) {
-        // Full bleed background for maskable
-        let r = 11, g = 87, b = 208, a = 255;
-        // Inner symbol: Aether wallet / diamond
-        if (dist < safeRadius) {
-          // Inner card shape or diamond shape
-          const absDx = Math.abs(dx);
-          const absDy = Math.abs(dy);
-          if (absDx + absDy < safeRadius * 0.8) {
-            r = 255; g = 255; b = 255; // White diamond/logo
-          }
-        }
-        rawData[pxOffset] = r;
-        rawData[pxOffset + 1] = g;
-        rawData[pxOffset + 2] = b;
-        rawData[pxOffset + 3] = a;
-      } else {
-        // Rounded squircle / circle icon
-        if (dist <= outerRadius) {
-          let r = 11, g = 87, b = 208, a = 255; // Google Blue #0B57D0
-          // Diamond / wallet emblem
-          const absDx = Math.abs(dx);
-          const absDy = Math.abs(dy);
-          if (absDx + absDy < outerRadius * 0.65) {
-            // White emblem
+      // Default: Black background
+      let r = 0, g = 0, b = 0, a = 255;
+
+      // Draw Lime Green Accent Bar and Dot (#8CE322 -> r:140, g:227, b:34)
+      const distToLine = Math.abs(y - lineY);
+      if (x >= lineX1 && x <= lineX2 && distToLine <= width * 0.009) {
+        r = 140; g = 227; b = 34;
+      }
+      // Circular dot at end of line
+      const ddx = x - lineX2;
+      const ddy = y - lineY;
+      if (Math.sqrt(ddx * ddx + ddy * ddy) <= dotR) {
+        r = 140; g = 227; b = 34;
+      }
+
+      // White "numi" text representation (bars between line and bottom)
+      if (y >= textTop && y <= textBottom) {
+        const normX = (x - lineX1) / (lineX2 - lineX1);
+        if (normX >= 0.02 && normX <= 0.98) {
+          // Vertical legs for 'n', 'u', 'm', 'i'
+          const isLeg =
+            (normX >= 0.03 && normX <= 0.13) || // n leg 1
+            (normX >= 0.21 && normX <= 0.31) || // n leg 2
+            (normX >= 0.37 && normX <= 0.46) || // u leg 1
+            (normX >= 0.54 && normX <= 0.63) || // u leg 2
+            (normX >= 0.68 && normX <= 0.74) || // m leg 1
+            (normX >= 0.78 && normX <= 0.84) || // m leg 2
+            (normX >= 0.88 && normX <= 0.94) || // m leg 3 (Note: or scaled)
+            (normX >= 0.94 && normX <= 1.00);   // i stem (under dot)
+
+          // Let's refine proportions:
+          // 'n': 0.00 to 0.26
+          // 'u': 0.30 to 0.56
+          // 'm': 0.60 to 0.88
+          // 'i': 0.93 to 1.00
+          const inN1 = normX >= 0.02 && normX <= 0.11;
+          const inN2 = normX >= 0.18 && normX <= 0.27;
+          const inNTop = normX >= 0.02 && normX <= 0.27 && y <= textTop + (textBottom - textTop) * 0.28;
+
+          const inU1 = normX >= 0.33 && normX <= 0.42;
+          const inU2 = normX >= 0.49 && normX <= 0.58;
+          const inUBottom = normX >= 0.33 && normX <= 0.58 && y >= textBottom - (textBottom - textTop) * 0.28;
+
+          const inM1 = normX >= 0.63 && normX <= 0.70;
+          const inM2 = normX >= 0.75 && normX <= 0.82;
+          const inM3 = normX >= 0.86 && normX <= 0.92;
+          const inMTop = normX >= 0.63 && normX <= 0.92 && y <= textTop + (textBottom - textTop) * 0.28;
+
+          const inI = normX >= 0.95 && normX <= 1.01;
+
+          if (inN1 || inN2 || inNTop || inU1 || inU2 || inUBottom || inM1 || inM2 || inM3 || inMTop || inI) {
             r = 255; g = 255; b = 255;
           }
-          // Soft edge antialiasing
-          if (dist > outerRadius - 1.5) {
-            a = Math.floor(255 * (outerRadius - dist) / 1.5);
-          }
-          rawData[pxOffset] = r;
-          rawData[pxOffset + 1] = g;
-          rawData[pxOffset + 2] = b;
-          rawData[pxOffset + 3] = a;
-        } else {
-          rawData[pxOffset] = 0;
-          rawData[pxOffset + 1] = 0;
-          rawData[pxOffset + 2] = 0;
-          rawData[pxOffset + 3] = 0;
         }
       }
+
+      rawData[pxOffset] = r;
+      rawData[pxOffset + 1] = g;
+      rawData[pxOffset + 2] = b;
+      rawData[pxOffset + 3] = a;
     }
   }
 
   const deflated = zlib.deflateSync(rawData);
-
-  // PNG Header
   const signature = Buffer.from([0x89, 0x50, 0x4e, 0x47, 0x0d, 0x0a, 0x1a, 0x0a]);
-
-  // IHDR
   const ihdrData = Buffer.alloc(13);
   ihdrData.writeUInt32BE(width, 0);
   ihdrData.writeUInt32BE(height, 4);
-  ihdrData[8] = 8; // Bit depth: 8
-  ihdrData[9] = 6; // Color type: 6 (RGBA)
-  ihdrData[10] = 0; // Compression
-  ihdrData[11] = 0; // Filter
-  ihdrData[12] = 0; // Interlace
+  ihdrData[8] = 8;
+  ihdrData[9] = 6;
+  ihdrData[10] = 0;
+  ihdrData[11] = 0;
+  ihdrData[12] = 0;
   const ihdrChunk = makeChunk('IHDR', ihdrData);
-
-  // IDAT
   const idatChunk = makeChunk('IDAT', deflated);
-
-  // IEND
   const iendChunk = makeChunk('IEND', Buffer.alloc(0));
 
   return Buffer.concat([signature, ihdrChunk, idatChunk, iendChunk]);
@@ -138,13 +142,4 @@ fs.writeFileSync(path.join(outDir, 'pwa-512x512.png'), createPNG(512, 512, false
 fs.writeFileSync(path.join(outDir, 'pwa-maskable-512x512.png'), createPNG(512, 512, true));
 fs.writeFileSync(path.join(outDir, 'apple-touch-icon.png'), createPNG(180, 180, false));
 
-// Also generate public/icon.svg
-const svg = `<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 512 512" fill="none">
-  <rect width="512" height="512" rx="128" fill="#0B57D0"/>
-  <path d="M256 112L392 248L256 384L120 248L256 112Z" fill="#FFFFFF"/>
-  <circle cx="256" cy="248" r="48" fill="#0B57D0"/>
-  <path d="M224 350L256 382L288 350" stroke="#FFFFFF" stroke-width="20" stroke-linecap="round" stroke-linejoin="round"/>
-</svg>`;
-fs.writeFileSync(path.join(outDir, 'icon.svg'), svg);
-
-console.log('PWA Android Icons generated successfully in /public!');
+console.log('Regenerated typography PNG icons in /public!');

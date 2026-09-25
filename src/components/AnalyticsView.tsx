@@ -90,62 +90,62 @@ export const AnalyticsView: React.FC<AnalyticsViewProps> = ({
   return (
     <div className="space-y-4 sm:space-y-5">
       {/* 4-Stat Metric Row in Material Design 3 cards */}
-      <div className="grid grid-cols-2 lg:grid-cols-4 gap-2.5 sm:gap-3.5">
+      <div className="grid grid-cols-2 lg:grid-cols-4 gap-2 sm:gap-3.5">
         {/* Income Card */}
-        <div className="bg-white rounded-2xl p-4 shadow-xs border border-[#E0E2EC] space-y-1 min-w-0">
+        <div className="bg-white rounded-2xl p-3 sm:p-4 shadow-xs border border-[#E0E2EC] space-y-1 min-w-0">
           <div className="flex items-center justify-between text-[#444746]">
-            <span className="text-xs font-medium">Income</span>
-            <div className="w-6 h-6 rounded-full bg-[#146C2E]/15 flex items-center justify-center text-[#146C2E] shrink-0">
-              <ArrowDownLeft size={13} strokeWidth={2.5} />
+            <span className="text-[11px] sm:text-xs font-medium truncate">Income</span>
+            <div className="w-5 h-5 sm:w-6 sm:h-6 rounded-full bg-[#146C2E]/15 flex items-center justify-center text-[#146C2E] shrink-0">
+              <ArrowDownLeft size={12} strokeWidth={2.5} />
             </div>
           </div>
-          <div className="text-lg sm:text-xl font-bold tracking-tight text-[#146C2E] tabular-nums truncate">
+          <div className="text-base sm:text-xl font-bold tracking-tight text-[#146C2E] tabular-nums truncate">
             +{formatCurrency(totalIncome, currency, { signDisplay: 'never' })}
           </div>
-          <p className="text-[11px] text-[#747775]">Total earned</p>
+          <p className="text-[10px] sm:text-[11px] text-[#747775]">Total earned</p>
         </div>
 
         {/* Expense Card */}
-        <div className="bg-white rounded-2xl p-4 shadow-xs border border-[#E0E2EC] space-y-1 min-w-0">
+        <div className="bg-white rounded-2xl p-3 sm:p-4 shadow-xs border border-[#E0E2EC] space-y-1 min-w-0">
           <div className="flex items-center justify-between text-[#444746]">
-            <span className="text-xs font-medium">Spending</span>
-            <div className="w-6 h-6 rounded-full bg-[#B3261E]/15 flex items-center justify-center text-[#B3261E] shrink-0">
-              <ArrowUpRight size={13} strokeWidth={2.5} />
+            <span className="text-[11px] sm:text-xs font-medium truncate">Spending</span>
+            <div className="w-5 h-5 sm:w-6 sm:h-6 rounded-full bg-[#B3261E]/15 flex items-center justify-center text-[#B3261E] shrink-0">
+              <ArrowUpRight size={12} strokeWidth={2.5} />
             </div>
           </div>
-          <div className="text-lg sm:text-xl font-bold tracking-tight text-[#B3261E] tabular-nums truncate">
+          <div className="text-base sm:text-xl font-bold tracking-tight text-[#B3261E] tabular-nums truncate">
             -{formatCurrency(totalExpense, currency, { signDisplay: 'never' })}
           </div>
-          <p className="text-[11px] text-[#747775]">Total spent</p>
+          <p className="text-[10px] sm:text-[11px] text-[#747775]">Total spent</p>
         </div>
 
         {/* Net Cash Flow Card */}
-        <div className="bg-white rounded-2xl p-4 shadow-xs border border-[#E0E2EC] space-y-1 min-w-0">
+        <div className="bg-white rounded-2xl p-3 sm:p-4 shadow-xs border border-[#E0E2EC] space-y-1 min-w-0">
           <div className="flex items-center justify-between text-[#444746]">
-            <span className="text-xs font-medium">Net Flow</span>
-            <span className={`text-[10px] font-bold px-2 py-0.5 rounded-full ${netSavings >= 0 ? 'bg-[#E7F8ED] text-[#146C2E]' : 'bg-[#F9DEDC] text-[#B3261E]'}`}>
+            <span className="text-[11px] sm:text-xs font-medium truncate">Net Flow</span>
+            <span className={`text-[9px] sm:text-[10px] font-bold px-1.5 sm:px-2 py-0.5 rounded-full shrink-0 ${netSavings >= 0 ? 'bg-[#E7F8ED] text-[#146C2E]' : 'bg-[#F9DEDC] text-[#B3261E]'}`}>
               {netSavings >= 0 ? 'Surplus' : 'Deficit'}
             </span>
           </div>
-          <div className="text-lg sm:text-xl font-bold tracking-tight text-[#1F1F1F] tabular-nums truncate">
+          <div className="text-base sm:text-xl font-bold tracking-tight text-[#1F1F1F] tabular-nums truncate">
             {netSavings >= 0 ? '+' : ''}
             {formatCurrency(netSavings, currency, { signDisplay: 'never' })}
           </div>
-          <p className="text-[11px] text-[#747775]">Period balance</p>
+          <p className="text-[10px] sm:text-[11px] text-[#747775]">Period balance</p>
         </div>
 
         {/* Savings Rate Card */}
-        <div className="bg-white rounded-2xl p-4 shadow-xs border border-[#E0E2EC] space-y-1 min-w-0">
+        <div className="bg-white rounded-2xl p-3 sm:p-4 shadow-xs border border-[#E0E2EC] space-y-1 min-w-0">
           <div className="flex items-center justify-between text-[#444746]">
-            <span className="text-xs font-medium">Savings Rate</span>
-            <span className="text-[10px] font-bold px-2 py-0.5 rounded-full bg-[#D3E3FD] text-[#041E49]">
+            <span className="text-[11px] sm:text-xs font-medium truncate">Savings Rate</span>
+            <span className="text-[9px] sm:text-[10px] font-bold px-1.5 sm:px-2 py-0.5 rounded-full bg-[#D3E3FD] text-[#041E49] shrink-0">
               Rate
             </span>
           </div>
-          <div className="text-lg sm:text-xl font-bold tracking-tight text-[#0B57D0] tabular-nums truncate">
+          <div className="text-base sm:text-xl font-bold tracking-tight text-[#0B57D0] tabular-nums truncate">
             {formatPercentage(savingsRate)}
           </div>
-          <p className="text-[11px] text-[#747775]">Retained income</p>
+          <p className="text-[10px] sm:text-[11px] text-[#747775]">Retained income</p>
         </div>
       </div>
 

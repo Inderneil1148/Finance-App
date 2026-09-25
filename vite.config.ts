@@ -14,9 +14,9 @@ export default defineConfig(() => {
         includeAssets: ['favicon.ico', 'apple-touch-icon.png', 'icon.svg'],
         manifest: {
           id: '/',
-          name: 'Aether Finance — Android Edition',
-          short_name: 'Aether',
-          description: 'A minimal, precision finance tracker designed for Android with Material Design 3, custom tagging, and budget insights.',
+          name: 'Numi - Minimal Expense & Tag Tracker',
+          short_name: 'Numi',
+          description: 'A minimal, precision finance tracker with custom tagging, visual clarity, and budget insights.',
           theme_color: '#F0F4F9',
           background_color: '#F0F4F9',
           display: 'standalone',
@@ -24,6 +24,12 @@ export default defineConfig(() => {
           start_url: '/',
           scope: '/',
           icons: [
+            {
+              src: '/icon.svg',
+              sizes: 'any',
+              type: 'image/svg+xml',
+              purpose: 'any',
+            },
             {
               src: '/pwa-192x192.png',
               sizes: '192x192',

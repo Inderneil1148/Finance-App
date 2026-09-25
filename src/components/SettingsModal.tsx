@@ -12,6 +12,7 @@ import {
   X,
 } from 'lucide-react';
 import { useHaptics } from '../hooks/useHaptics';
+import { NumiLogo } from './NumiLogo';
 
 interface SettingsModalProps {
   isOpen: boolean;
@@ -73,7 +74,7 @@ export const SettingsModal: React.FC<SettingsModalProps> = ({
     const url = URL.createObjectURL(blob);
     const link = document.createElement('a');
     link.href = url;
-    link.download = `aether-finance-backup-${new Date().toISOString().slice(0, 10)}.json`;
+    link.download = `numi-finance-backup-${new Date().toISOString().slice(0, 10)}.json`;
     document.body.appendChild(link);
     link.click();
     document.body.removeChild(link);
@@ -335,6 +336,25 @@ export const SettingsModal: React.FC<SettingsModalProps> = ({
                 </div>
               </button>
             </div>
+          </div>
+
+          {/* About Numi Brand Card with Official Typography Logo */}
+          <div className="p-4 bg-[#05070B] text-white rounded-2xl border border-white/10 shadow-sm flex flex-col sm:flex-row items-start sm:items-center justify-between gap-3">
+            <div className="flex items-center gap-3">
+              <NumiLogo variant="badge" size={46} className="shrink-0" />
+              <div>
+                <div className="flex items-center gap-1.5">
+                  <span className="text-sm font-bold text-white tracking-tight">Numi</span>
+                  <span className="text-[10px] font-semibold bg-[#8CE322]/20 text-[#8CE322] px-1.5 py-0.5 rounded-full border border-[#8CE322]/30">
+                    Official
+                  </span>
+                </div>
+                <p className="text-[11px] text-white/70 mt-0.5 leading-snug">
+                  Clean, private expense tracking with instant haptic feedback.
+                </p>
+              </div>
+            </div>
+            <NumiLogo size={22} theme="dark" showGlow className="shrink-0 hidden sm:block" />
           </div>
         </div>
       </div>

@@ -1,0 +1,175 @@
+<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 512 512" fill="none">
+  <!-- Solid Dark Background -->
+  <rect width="512" height="512" rx="96" fill="#000000"/>
+
+  <defs>
+    <!-- Silver Metallic Gradients for Roman Denarius -->
+    <radialGradient id="coinGrad" cx="44%" cy="40%" r="58%">
+      <stop offset="0%" stopColor="#FFFFFF"/>
+      <stop offset="20%" stopColor="#E6E9EE"/>
+      <stop offset="50%" stopColor="#B6BDC8"/>
+      <stop offset="80%" stopColor="#707682"/>
+      <stop offset="100%" stopColor="#3E434D"/>
+    </radialGradient>
+
+    <linearGradient id="rimGrad" x1="0%" y1="0%" x2="100%" y2="100%">
+      <stop offset="0%" stopColor="#FFFFFF" stopOpacity="0.95"/>
+      <stop offset="45%" stopColor="#9CA3AF"/>
+      <stop offset="85%" stopColor="#4B525F"/>
+      <stop offset="100%" stopColor="#252930"/>
+    </linearGradient>
+
+    <linearGradient id="reliefLight" x1="30%" y1="15%" x2="70%" y2="85%">
+      <stop offset="0%" stopColor="#FFFFFF"/>
+      <stop offset="50%" stopColor="#D5DAE2"/>
+      <stop offset="100%" stopColor="#69707C"/>
+    </linearGradient>
+
+    <filter id="shadow" x="-20%" y="-20%" width="140%" height="140%">
+      <feDropShadow dx="0" dy="6" stdDeviation="8" floodColor="#000000" floodOpacity="0.6"/>
+    </filter>
+  </defs>
+
+  <!-- 1. Ancient Roman Silver Denarius Coin -->
+  <g transform="translate(256, 175) scale(0.92)" filter="url(#shadow)">
+    <!-- Base Coin Body -->
+    <circle cx="0" cy="0" r="145" fill="url(#coinGrad)"/>
+    <circle cx="0" cy="0" r="142" stroke="url(#rimGrad)" stroke-width="4" fill="none"/>
+    <circle cx="0" cy="0" r="134" stroke="#484E59" stroke-width="1.5" stroke-dasharray="3 4" fill="none" opacity="0.6"/>
+
+    <!-- Beaded Rim (Dotted Edge) -->
+    <g fill="#F3F5F8" opacity="0.9">
+      <circle cx="0" cy="-133" r="2.6"/>
+      <circle cx="17" cy="-132" r="2.6"/>
+      <circle cx="34" cy="-129" r="2.6"/>
+      <circle cx="51" cy="-123" r="2.6"/>
+      <circle cx="67" cy="-115" r="2.6"/>
+      <circle cx="81" cy="-105" r="2.6"/>
+      <circle cx="94" cy="-94" r="2.6"/>
+      <circle cx="105" cy="-81" r="2.6"/>
+      <circle cx="115" cy="-67" r="2.6"/>
+      <circle cx="123" cy="-51" r="2.6"/>
+      <circle cx="129" cy="-34" r="2.6"/>
+      <circle cx="132" cy="-17" r="2.6"/>
+      <circle cx="133" cy="0" r="2.6"/>
+      <circle cx="132" cy="17" r="2.6"/>
+      <circle cx="129" cy="34" r="2.6"/>
+      <circle cx="123" cy="51" r="2.6"/>
+      <circle cx="115" cy="67" r="2.6"/>
+      <circle cx="105" cy="81" r="2.6"/>
+      <circle cx="94" cy="94" r="2.6"/>
+      <circle cx="81" cy="105" r="2.6"/>
+      <circle cx="67" cy="115" r="2.6"/>
+      <circle cx="51" cy="123" r="2.6"/>
+      <circle cx="34" cy="129" r="2.6"/>
+      <circle cx="17" cy="132" r="2.6"/>
+      <circle cx="0" cy="133" r="2.6"/>
+      <circle cx="-17" cy="132" r="2.6"/>
+      <circle cx="-34" cy="129" r="2.6"/>
+      <circle cx="-51" cy="123" r="2.6"/>
+      <circle cx="-67" cy="115" r="2.6"/>
+      <circle cx="-81" cy="105" r="2.6"/>
+      <circle cx="-94" cy="94" r="2.6"/>
+      <circle cx="-105" cy="81" r="2.6"/>
+      <circle cx="-115" cy="67" r="2.6"/>
+      <circle cx="-123" cy="51" r="2.6"/>
+      <circle cx="-129" cy="34" r="2.6"/>
+      <circle cx="-132" cy="17" r="2.6"/>
+      <circle cx="-133" cy="0" r="2.6"/>
+      <circle cx="-132" cy="-17" r="2.6"/>
+      <circle cx="-129" cy="-34" r="2.6"/>
+      <circle cx="-123" cy="-51" r="2.6"/>
+      <circle cx="-115" cy="-67" r="2.6"/>
+      <circle cx="-105" cy="-81" r="2.6"/>
+      <circle cx="-94" cy="-94" r="2.6"/>
+      <circle cx="-81" cy="-105" r="2.6"/>
+      <circle cx="-67" cy="-115" r="2.6"/>
+      <circle cx="-51" cy="-123" r="2.6"/>
+      <circle cx="-34" cy="-129" r="2.6"/>
+      <circle cx="-17" cy="-132" r="2.6"/>
+    </g>
+
+    <!-- Latin Coin Inscription: IMP CAES & DIVI F AVG -->
+    <g fill="#F1F4F8" font-size="14.5" font-family="Cinzel, 'Times New Roman', Georgia, serif" font-weight="bold" letter-spacing="2" opacity="0.95">
+      <text transform="translate(-115, -15) rotate(-72)" text-anchor="middle">I</text>
+      <text transform="translate(-110, -40) rotate(-55)" text-anchor="middle">M</text>
+      <text transform="translate(-100, -62) rotate(-38)" text-anchor="middle">P</text>
+      <text transform="translate(-90, -78) rotate(-24)" text-anchor="middle">•</text>
+      <text transform="translate(-76, -91) rotate(-12)" text-anchor="middle">C</text>
+      <text transform="translate(-56, -103) rotate(3)" text-anchor="middle">A</text>
+      <text transform="translate(-35, -109) rotate(16)" text-anchor="middle">E</text>
+      <text transform="translate(-14, -112) rotate(28)" text-anchor="middle">S</text>
+
+      <text transform="translate(30, -111) rotate(35)" text-anchor="middle">D</text>
+      <text transform="translate(50, -104) rotate(48)" text-anchor="middle">I</text>
+      <text transform="translate(68, -92) rotate(60)" text-anchor="middle">V</text>
+      <text transform="translate(83, -77) rotate(72)" text-anchor="middle">I</text>
+      <text transform="translate(94, -60) rotate(85)" text-anchor="middle">•</text>
+      <text transform="translate(104, -40) rotate(98)" text-anchor="middle">F</text>
+      <text transform="translate(107, -18) rotate(112)" text-anchor="middle">•</text>
+      <text transform="translate(103, 7) rotate(126)" text-anchor="middle">A</text>
+      <text transform="translate(92, 32) rotate(140)" text-anchor="middle">V</text>
+      <text transform="translate(76, 55) rotate(155)" text-anchor="middle">G</text>
+    </g>
+
+    <!-- Augustus Caesar Portrait Profile (Right-Facing with Laurel Wreath) -->
+    <g transform="translate(-68, -105)">
+      <!-- Silhouette Base & Shading -->
+      <path d="M60 45 C68 38 82 37 94 42 C105 48 110 57 109 67 C108 76 104 82 101 87 C104 92 103 99 98 103 C94 107 88 109 86 114 C84 121 88 131 86 142 C84 153 76 162 63 166 C48 171 33 167 20 161 C15 156 18 146 24 143 C30 139 37 137 41 129 C44 122 41 113 39 104 C36 96 40 87 45 79 C51 72 55 52 60 45 Z"
+            fill="url(#reliefLight)"/>
+
+      <!-- Facial Details -->
+      <!-- Eye & Eyebrow -->
+      <ellipse cx="88" cy="67" rx="5" ry="3" fill="#3D434E" transform="rotate(-10 88 67)"/>
+      <path d="M81 63 C85 60 90 61 95 64" stroke="#313640" stroke-width="2" stroke-linecap="round" fill="none"/>
+
+      <!-- Nose Highlight & Bridge -->
+      <path d="M96 59 L107 73 L102 78 L97 77" fill="#FFFFFF" opacity="0.9"/>
+
+      <!-- Lips & Defined Chin -->
+      <path d="M100 85 C103 85 104 87 102 89 C99 91 96 90 95 89" stroke="#484F5B" stroke-width="1.8" fill="none"/>
+      <path d="M100 95 C103 96 104 101 101 104 C96 107 91 107 88 104" fill="#F8FAFD"/>
+
+      <!-- Classical Ear -->
+      <path d="M62 80 C66 78 71 80 72 86 C73 92 70 99 65 101 C61 102 59 98 59 93 C59 88 60 82 62 80 Z"
+            fill="#CBD1DA" stroke="#484E59" stroke-width="1.4"/>
+
+      <!-- Laurel Wreath (Emperor's Victorious Leaves) -->
+      <g fill="#F8FAFC" stroke="#434954" stroke-width="1">
+        <path d="M57 41 C62 33 69 32 73 37 C70 41 64 43 57 41 Z"/>
+        <path d="M68 36 C73 29 82 30 85 36 C81 40 74 40 68 36 Z"/>
+        <path d="M81 34 C87 28 96 30 98 37 C93 40 86 39 81 34 Z"/>
+        <path d="M92 37 C99 33 107 36 108 43 C103 45 96 42 92 37 Z"/>
+
+        <path d="M53 51 C57 44 65 44 68 50 C64 54 57 54 53 51 Z"/>
+        <path d="M64 48 C70 42 77 44 80 50 C75 54 68 53 64 48 Z"/>
+        <path d="M76 47 C83 41 90 44 92 51 C87 54 80 52 76 47 Z"/>
+
+        <!-- Wreath Ribbons trailing behind -->
+        <path d="M46 69 C41 74 37 83 36 91 C39 89 43 83 46 78 Z" fill="#E4E8F0" stroke="#363C46"/>
+        <path d="M44 76 C37 83 33 94 32 105 C35 101 40 95 42 86 Z" fill="#D3D8E2" stroke="#363C46"/>
+        <circle cx="47" cy="71" r="3.5" fill="#BAC0CB" stroke="#363C46" stroke-width="1"/>
+      </g>
+
+      <!-- Neck folds / Roman Toga drape -->
+      <path d="M46 134 C53 143 64 148 77 150" stroke="#525864" stroke-width="2" fill="none" opacity="0.6"/>
+      <path d="M35 147 C46 156 59 161 72 162" stroke="#525864" stroke-width="2" fill="none" opacity="0.6"/>
+    </g>
+  </g>
+
+  <!-- 2. Vibrant Lime Green Accent Line terminating in a dot above 'i' -->
+  <g transform="translate(96, 350)">
+    <line x1="0" y1="0" x2="310" y2="0" stroke="#8FE000" stroke-width="5" stroke-linecap="round"/>
+    <circle cx="316" cy="0" r="10" fill="#8FE000"/>
+  </g>
+
+  <!-- 3. Bold Modern White Wordmark: 'numi' -->
+  <g transform="translate(96, 428)">
+    <text x="0" y="0"
+          fill="#FFFFFF"
+          font-family="'Plus Jakarta Sans', system-ui, -apple-system, Roboto, sans-serif"
+          font-size="82"
+          font-weight="900"
+          letter-spacing="-1">numi</text>
+  </g>
+</svg>

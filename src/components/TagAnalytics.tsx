@@ -301,34 +301,34 @@ export const TagAnalytics: React.FC<TagAnalyticsProps> = ({
                     </div>
                   ) : (
                     <div className="space-y-2">
-                      <div className="flex items-center justify-between">
+                      <div className="flex items-center justify-between gap-2">
                         {/* Left: Tag Name */}
-                        <div className="flex items-center gap-2 min-w-0">
+                        <div className="flex items-center gap-1.5 min-w-0 flex-1">
                           <button
                             type="button"
                             onClick={() => onFilterByTag(tag.name)}
-                            className="group inline-flex items-center gap-1.5 text-xs font-semibold text-[#1F1F1F] hover:text-[#0B57D0] transition-colors cursor-pointer"
+                            className="group inline-flex items-center gap-1.5 text-xs font-semibold text-[#1F1F1F] hover:text-[#0B57D0] transition-colors cursor-pointer min-w-0"
                             title="Filter transactions by this tag"
                           >
                             <span
                               className="w-2.5 h-2.5 rounded-full shrink-0"
                               style={{ backgroundColor: tag.color }}
                             />
-                            <span className="truncate">#{tag.name}</span>
+                            <span className="truncate max-w-[100px] sm:max-w-[180px]">#{tag.name}</span>
                             <ChevronRight
-                              size={14}
-                              className="opacity-40 group-hover:opacity-100 text-[#0B57D0]"
+                              size={13}
+                              className="opacity-40 group-hover:opacity-100 text-[#0B57D0] shrink-0"
                             />
                           </button>
 
-                          <span className="text-[11px] text-[#747775] tabular-nums">
-                            ({tag.count} tx{tag.count === 1 ? '' : 's'})
+                          <span className="text-[10px] sm:text-[11px] text-[#747775] tabular-nums shrink-0">
+                            ({tag.count})
                           </span>
                         </div>
 
                         {/* Right: Spend Amount & Quick Actions */}
-                        <div className="flex items-center gap-2">
-                          <span className="text-xs font-semibold tabular-nums text-[#1F1F1F]">
+                        <div className="flex items-center gap-1.5 shrink-0 pl-1">
+                          <span className="text-xs font-semibold tabular-nums text-[#1F1F1F] whitespace-nowrap">
                             {formatCurrency(tag.spend, currency)}
                           </span>
 
@@ -353,7 +353,7 @@ export const TagAnalytics: React.FC<TagAnalyticsProps> = ({
                                   setTimeout(() => setConfirmDeleteTagId(null), 3000);
                                 }
                               }}
-                              className={`px-1.5 py-0.5 rounded text-[11px] font-medium transition-all cursor-pointer active:scale-95 flex items-center gap-1 ${
+                              className={`px-1.5 py-0.5 rounded text-[10px] sm:text-[11px] font-medium transition-all cursor-pointer active:scale-95 flex items-center gap-1 ${
                                 confirmDeleteTagId === tag.id
                                   ? 'bg-[#B3261E] text-white shadow-xs'
                                   : 'text-[#747775] hover:text-[#B3261E]'
@@ -362,7 +362,7 @@ export const TagAnalytics: React.FC<TagAnalyticsProps> = ({
                               title={confirmDeleteTagId === tag.id ? 'Click to confirm delete' : 'Delete tag'}
                             >
                               <Trash2 size={13} strokeWidth={2} />
-                              {confirmDeleteTagId === tag.id && <span>Delete?</span>}
+                              {confirmDeleteTagId === tag.id && <span className="whitespace-nowrap">Delete?</span>}
                             </button>
                           </div>
                         </div>

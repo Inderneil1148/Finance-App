@@ -1,6 +1,7 @@
 import React from 'react';
-import { Wallet, Globe, MessageSquare, Trash2, Camera, MousePointerClick, X } from 'lucide-react';
+import { Globe, MessageSquare, Trash2, Camera, MousePointerClick, X } from 'lucide-react';
 import { useHaptics } from '../hooks/useHaptics';
+import { NumiLogo } from './NumiLogo';
 
 interface AndroidRecentsModalProps {
   isOpen: boolean;
@@ -23,7 +24,7 @@ export const AndroidRecentsModal: React.FC<AndroidRecentsModalProps> = ({
     onClose();
   };
 
-  const handleResumeAether = () => {
+  const handleResumeNumi = () => {
     tap('light');
     onSelectApp();
     onClose();
@@ -54,17 +55,15 @@ export const AndroidRecentsModal: React.FC<AndroidRecentsModalProps> = ({
           <span className="text-[10px] mt-2 text-white/60">Chrome</span>
         </div>
 
-        {/* Center active card: Aether Finance */}
+        {/* Center active card: Numi */}
         <div
-          onClick={handleResumeAether}
+          onClick={handleResumeNumi}
           className="w-64 sm:w-72 h-84 bg-[#F0F4F9] text-[#1F1F1F] rounded-3xl p-4 shadow-2xl flex flex-col justify-between cursor-pointer border-2 border-[#0B57D0] transition-transform hover:scale-[1.02] active:scale-98"
         >
           {/* Card Header */}
           <div className="flex items-center gap-2">
-            <div className="w-6 h-6 rounded-lg bg-[#0B57D0] text-white flex items-center justify-center">
-              <Wallet size={14} />
-            </div>
-            <span className="text-xs font-bold text-[#1F1F1F]">Aether Finance</span>
+            <NumiLogo variant="badge" size={24} />
+            <span className="text-xs font-bold text-[#1F1F1F]">Numi</span>
           </div>
 
           {/* Mini snapshot preview */}
@@ -118,7 +117,7 @@ export const AndroidRecentsModal: React.FC<AndroidRecentsModalProps> = ({
 
         <button
           type="button"
-          onClick={handleResumeAether}
+          onClick={handleResumeNumi}
           className="flex flex-col items-center gap-1 text-[11px] text-white/80 hover:text-white cursor-pointer"
         >
           <MousePointerClick size={16} />

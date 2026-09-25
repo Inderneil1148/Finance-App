@@ -12,10 +12,10 @@ import {
   Bell,
   ChevronUp,
   Sliders,
-  Wallet,
   Check,
 } from 'lucide-react';
 import { useHaptics } from '../hooks/useHaptics';
+import { NumiLogo } from './NumiLogo';
 
 interface AndroidQuickSettingsProps {
   isOpen: boolean;
@@ -189,14 +189,12 @@ export const AndroidQuickSettings: React.FC<AndroidQuickSettingsProps> = ({
             <span className="text-[10px] text-[#A8C7FA] lowercase font-normal">silent notifications (1)</span>
           </div>
 
-          {/* Aether Finance Notification Card */}
+          {/* Numi Notification Card */}
           <div className="p-3.5 bg-white/10 rounded-2xl space-y-2.5 border border-white/5">
             <div className="flex items-center justify-between">
               <div className="flex items-center gap-2">
-                <div className="w-5 h-5 rounded-md bg-[#0B57D0] flex items-center justify-center text-white">
-                  <Wallet size={12} />
-                </div>
-                <span className="text-xs font-bold text-white">Aether Finance</span>
+                <NumiLogo variant="badge" size={22} />
+                <span className="text-xs font-bold text-white">Numi</span>
                 <span className="text-[10px] text-white/50">• Just now</span>
               </div>
               <span className="text-[10px] font-semibold bg-[#0B57D0]/40 text-[#D3E3FD] px-2 py-0.5 rounded-full">

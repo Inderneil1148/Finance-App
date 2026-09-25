@@ -146,7 +146,7 @@ export default function App() {
     } else {
       setSnackbar({
         id: String(Date.now()),
-        text: 'Aether is running in background • Press Home to minimize',
+        text: 'Numi is running in background • Press Home to minimize',
         type: 'info',
       });
     }
@@ -418,7 +418,7 @@ export default function App() {
             {/* Clock & Notification indicator */}
             <div className="flex items-center gap-1.5 font-bold">
               <span>{currentTime}</span>
-              <span className="w-1.5 h-1.5 rounded-full bg-[#0B57D0]" title="Aether notification active" />
+              <span className="w-1.5 h-1.5 rounded-full bg-[#0B57D0]" title="Numi notification active" />
             </div>
 
             {/* Central Android Camera Punch-Hole */}

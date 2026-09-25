@@ -2,6 +2,7 @@ import React from 'react';
 import { ActiveTab, TimeFilter, CurrencyConfig } from '../types/finance';
 import { Settings, Smartphone, Monitor, Plus, Wallet, Tags, BarChart3, Check, Download } from 'lucide-react';
 import { useHaptics } from '../hooks/useHaptics';
+import { NumiLogo } from './NumiLogo';
 
 interface HeaderProps {
   activeTab: ActiveTab;
@@ -63,17 +64,16 @@ export const Header: React.FC<HeaderProps> = ({
         {/* Top/Left Row: Android Brand, Currency Chip, and Action Buttons */}
         <div className="w-full md:w-auto flex items-center justify-between gap-3">
           <div className="flex items-center gap-2.5">
-            {/* Android App Logo Icon */}
-            <div className="w-8 h-8 rounded-xl bg-[#0B57D0] flex items-center justify-center text-white shadow-xs">
-              <Wallet size={18} strokeWidth={2.4} />
-            </div>
-
-            <div className="flex items-baseline gap-1.5">
-              <span className="text-lg sm:text-xl font-bold tracking-tight text-[#1F1F1F] select-none">
-                Aether
-              </span>
-              <span className="text-[11px] font-semibold text-[#0B57D0] bg-[#D3E3FD] px-2 py-0.5 rounded-full">
-                Android
+            {/* Numi Official Typography Logo (Lime Accent Line + "numi" Wordmark) */}
+            <div className="flex items-center gap-2.5 min-w-0">
+              <NumiLogo
+                size={28}
+                theme="light"
+                showGlow
+                className="hover:scale-[1.03] transition-transform cursor-pointer"
+              />
+              <span className="text-[10px] font-semibold text-[#0B57D0] bg-[#D3E3FD] px-1.5 py-0.5 rounded-full shrink-0">
+                PWA
               </span>
             </div>
 
@@ -81,11 +81,11 @@ export const Header: React.FC<HeaderProps> = ({
             <button
               type="button"
               onClick={handleSettingsClick}
-              className="inline-flex items-center gap-1.5 px-3 py-1 text-xs font-semibold bg-white hover:bg-[#E8F0FE] text-[#1F1F1F] rounded-full transition-all active:scale-95 cursor-pointer shadow-xs border border-[#C4C7C5]"
+              className="inline-flex items-center gap-1.5 px-2.5 py-1 text-xs font-semibold bg-white hover:bg-[#E8F0FE] text-[#1F1F1F] rounded-full transition-all active:scale-95 cursor-pointer shadow-xs border border-[#C4C7C5] shrink-0"
               title="Currency Setting (Tap to change)"
             >
               <span className="font-bold text-[#0B57D0]">{currentSymbol}</span>
-              <span className="text-[11px] text-[#444746]">{currentCode}</span>
+              <span className="text-[10px] sm:text-[11px] text-[#444746]">{currentCode}</span>
             </button>
           </div>
 
@@ -131,7 +131,7 @@ export const Header: React.FC<HeaderProps> = ({
             </nav>
           )}
 
-          {/* Mobile Right Action Icons (Settings + Install APK) */}
+          {/* Mobile Right Action Icons (Settings + Install App) */}
           <div className="flex md:hidden items-center gap-1">
             {onOpenApkModal && (
               <button
@@ -141,8 +141,8 @@ export const Header: React.FC<HeaderProps> = ({
                   onOpenApkModal();
                 }}
                 className="w-9 h-9 rounded-full flex items-center justify-center text-[#0B57D0] hover:bg-[#E0E2EC]/60 transition-colors cursor-pointer active:scale-95"
-                title="Install Android App"
-                aria-label="Install Android App"
+                title="Install Numi App on iOS or Android"
+                aria-label="Install Numi App"
               >
                 <Download size={18} strokeWidth={2.4} />
               </button>
@@ -158,48 +158,48 @@ export const Header: React.FC<HeaderProps> = ({
           </div>
         </div>
 
-        {/* Center / Right Row: Material Design 3 Segmented Filter Chips */}
+        {/* Center / Right Row: Material Design 3 Segmented Filter Chips & Actions */}
         <div className="w-full md:w-auto flex items-center justify-between md:justify-end gap-2 sm:gap-3">
-          <div className="flex-1 md:flex-initial flex items-center p-1 bg-[#E0E2EC]/70 rounded-full text-xs">
+          <div className="w-full sm:w-auto flex items-center p-1 bg-[#E0E2EC]/70 rounded-full text-xs">
             <button
               type="button"
               onClick={() => handleTimeClick('this-month')}
-              className={`flex-1 md:flex-initial px-3.5 py-1.5 rounded-full text-xs font-semibold transition-all min-h-[30px] cursor-pointer active:scale-95 flex items-center justify-center gap-1.5 ${
+              className={`flex-1 sm:flex-initial px-2.5 sm:px-3.5 py-1.5 rounded-full text-[11px] sm:text-xs font-semibold transition-all min-h-[30px] cursor-pointer active:scale-95 flex items-center justify-center gap-1 whitespace-nowrap ${
                 timeFilter === 'this-month'
                   ? 'bg-white text-[#041E49] shadow-xs ring-1 ring-black/5 font-bold'
                   : 'text-[#444746] hover:text-[#1F1F1F]'
               }`}
             >
-              {timeFilter === 'this-month' && <Check size={13} className="text-[#0B57D0]" />}
+              {timeFilter === 'this-month' && <Check size={12} className="text-[#0B57D0] shrink-0" />}
               <span>This Month</span>
             </button>
             <button
               type="button"
               onClick={() => handleTimeClick('last-30-days')}
-              className={`flex-1 md:flex-initial px-3.5 py-1.5 rounded-full text-xs font-semibold transition-all min-h-[30px] cursor-pointer active:scale-95 flex items-center justify-center gap-1.5 ${
+              className={`flex-1 sm:flex-initial px-2.5 sm:px-3.5 py-1.5 rounded-full text-[11px] sm:text-xs font-semibold transition-all min-h-[30px] cursor-pointer active:scale-95 flex items-center justify-center gap-1 whitespace-nowrap ${
                 timeFilter === 'last-30-days'
                   ? 'bg-white text-[#041E49] shadow-xs ring-1 ring-black/5 font-bold'
                   : 'text-[#444746] hover:text-[#1F1F1F]'
               }`}
             >
-              {timeFilter === 'last-30-days' && <Check size={13} className="text-[#0B57D0]" />}
+              {timeFilter === 'last-30-days' && <Check size={12} className="text-[#0B57D0] shrink-0" />}
               <span>Last 30 Days</span>
             </button>
             <button
               type="button"
               onClick={() => handleTimeClick('all-time')}
-              className={`flex-1 md:flex-initial px-3.5 py-1.5 rounded-full text-xs font-semibold transition-all min-h-[30px] cursor-pointer active:scale-95 flex items-center justify-center gap-1.5 ${
+              className={`flex-1 sm:flex-initial px-2.5 sm:px-3.5 py-1.5 rounded-full text-[11px] sm:text-xs font-semibold transition-all min-h-[30px] cursor-pointer active:scale-95 flex items-center justify-center gap-1 whitespace-nowrap ${
                 timeFilter === 'all-time'
                   ? 'bg-white text-[#041E49] shadow-xs ring-1 ring-black/5 font-bold'
                   : 'text-[#444746] hover:text-[#1F1F1F]'
               }`}
             >
-              {timeFilter === 'all-time' && <Check size={13} className="text-[#0B57D0]" />}
+              {timeFilter === 'all-time' && <Check size={12} className="text-[#0B57D0] shrink-0" />}
               <span>All Time</span>
             </button>
           </div>
 
-          {/* Desktop Right Actions: New Transaction + Install APK + Android Phone Frame Simulator + Settings */}
+          {/* Desktop Right Actions: New Transaction + Install App + Android Phone Frame Simulator + Settings */}
           <div className="hidden md:flex items-center gap-2">
             {onOpenApkModal && (
               <button
@@ -209,10 +209,10 @@ export const Header: React.FC<HeaderProps> = ({
                   onOpenApkModal();
                 }}
                 className="flex items-center gap-1.5 px-3 py-1.5 bg-[#E8F0FE] hover:bg-[#D3E3FD] text-[#0B57D0] rounded-full text-xs font-semibold shadow-2xs active:scale-95 transition-all cursor-pointer min-h-[34px]"
-                title="Install on Android"
+                title="Install Numi on iOS or Android"
               >
                 <Download size={14} strokeWidth={2.4} />
-                <span>Install APK</span>
+                <span>Install App</span>
               </button>
             )}
 
