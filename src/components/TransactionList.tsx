@@ -212,7 +212,7 @@ export const TransactionList: React.FC<TransactionListProps> = ({
       </div>
 
       {/* Feed Status Summary */}
-      <div className="flex items-center justify-between px-2 text-[11px] text-[#86868B] font-medium tracking-tight">
+      <div className="flex items-center justify-between px-2 text-[11px] text-[#444746] font-medium tracking-tight">
         <span>
           {timeFilter === 'this-month'
             ? 'This Month'
@@ -222,23 +222,23 @@ export const TransactionList: React.FC<TransactionListProps> = ({
           • {filteredTransactions.length} {filteredTransactions.length === 1 ? 'record' : 'records'}
         </span>
         {filteredTransactions.length > 0 && (
-          <span className="text-[10px] uppercase tracking-wider text-[#8E8E93]">
+          <span className="text-[10px] uppercase tracking-wider text-[#747775]">
             Grouped by date
           </span>
         )}
       </div>
 
-      {/* Grouped Inset Feed (Apple Wallet Table View style) */}
+      {/* Material Design 3 Grouped Inset Feed */}
       {groupedByDate.length === 0 ? (
-        <div className="p-8 text-center bg-white rounded-2xl border border-black/[0.04] shadow-[0_2px_8px_rgba(0,0,0,0.02)] space-y-3">
-          <div className="w-12 h-12 mx-auto rounded-full bg-[#F2F2F7] flex items-center justify-center text-[#8E8E93]">
+        <div className="p-8 text-center bg-white rounded-2xl border border-[#E0E2EC] shadow-xs space-y-3">
+          <div className="w-12 h-12 mx-auto rounded-full bg-[#F0F4F9] flex items-center justify-center text-[#747775]">
             <Search size={22} strokeWidth={2} />
           </div>
           <div className="space-y-1">
-            <h3 className="text-sm font-semibold text-[#1D1D1F]">
+            <h3 className="text-sm font-semibold text-[#1F1F1F]">
               No Transactions Found
             </h3>
-            <p className="text-xs text-[#8E8E93] max-w-xs mx-auto">
+            <p className="text-xs text-[#444746] max-w-xs mx-auto">
               {searchQuery || selectedTag || typeFilter !== 'all'
                 ? 'Try resetting your search query or tag filter.'
                 : 'No transactions logged yet. Tap the button below to get started.'}
@@ -320,12 +320,12 @@ export const TransactionList: React.FC<TransactionListProps> = ({
                       {/* Middle: Title, Category & Custom Tags */}
                       <div className="flex-1 min-w-0 pr-1">
                         <div className="flex items-center gap-2">
-                          <p className="text-sm font-semibold text-[#1D1D1F] truncate tracking-tight">
+                          <p className="text-sm font-semibold text-[#1F1F1F] truncate tracking-tight">
                             {tx.title}
                           </p>
                           {tx.note && (
                             <span
-                              className="hidden md:inline-block text-xs text-[#8E8E93] truncate max-w-[200px] lg:max-w-[280px]"
+                              className="hidden md:inline-block text-xs text-[#747775] truncate max-w-[200px] lg:max-w-[280px]"
                               title={tx.note}
                             >
                               · {tx.note}
@@ -334,14 +334,14 @@ export const TransactionList: React.FC<TransactionListProps> = ({
                         </div>
 
                         {/* Category & Tags Row */}
-                        <div className="flex items-center gap-1.5 text-xs text-[#86868B] mt-0.5 flex-wrap">
-                          <span className="truncate max-w-[120px] text-[11px] font-medium text-[#86868B]">
+                        <div className="flex items-center gap-1.5 text-xs text-[#444746] mt-0.5 flex-wrap">
+                          <span className="truncate max-w-[120px] text-[11px] font-medium text-[#444746]">
                             {tx.category}
                           </span>
 
                           {tx.customTags && tx.customTags.length > 0 && (
                             <>
-                              <span className="text-[#C7C7CC] text-[10px]" aria-hidden="true">
+                              <span className="text-[#C4C7C5] text-[10px]" aria-hidden="true">
                                 ·
                               </span>
                               <div className="flex items-center gap-1 flex-wrap">

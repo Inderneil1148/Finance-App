@@ -1,6 +1,6 @@
 import React from 'react';
 import { ActiveTab, TimeFilter, CurrencyConfig } from '../types/finance';
-import { Settings, Smartphone, Monitor, Plus, Wallet, Tags, BarChart3, Check } from 'lucide-react';
+import { Settings, Smartphone, Monitor, Plus, Wallet, Tags, BarChart3, Check, Download } from 'lucide-react';
 import { useHaptics } from '../hooks/useHaptics';
 
 interface HeaderProps {
@@ -13,6 +13,7 @@ interface HeaderProps {
   currency?: CurrencyConfig;
   onTabChange?: (tab: ActiveTab) => void;
   onOpenAddModal?: () => void;
+  onOpenApkModal?: () => void;
 }
 
 export const Header: React.FC<HeaderProps> = ({
@@ -25,6 +26,7 @@ export const Header: React.FC<HeaderProps> = ({
   currency,
   onTabChange,
   onOpenAddModal,
+  onOpenApkModal,
 }) => {
   const { tap, selection } = useHaptics();
   const currentSymbol = currency?.symbol || '₹';
@@ -129,8 +131,22 @@ export const Header: React.FC<HeaderProps> = ({
             </nav>
           )}
 
-          {/* Mobile Right Action Icons (Settings) */}
-          <div className="flex md:hidden items-center gap-1.5">
+          {/* Mobile Right Action Icons (Settings + Install APK) */}
+          <div className="flex md:hidden items-center gap-1">
+            {onOpenApkModal && (
+              <button
+                type="button"
+                onClick={() => {
+                  tap('light');
+                  onOpenApkModal();
+                }}
+                className="w-9 h-9 rounded-full flex items-center justify-center text-[#0B57D0] hover:bg-[#E0E2EC]/60 transition-colors cursor-pointer active:scale-95"
+                title="Install Android App"
+                aria-label="Install Android App"
+              >
+                <Download size={18} strokeWidth={2.4} />
+              </button>
+            )}
             <button
               type="button"
               onClick={handleSettingsClick}
@@ -183,8 +199,23 @@ export const Header: React.FC<HeaderProps> = ({
             </button>
           </div>
 
-          {/* Desktop Right Actions: New Transaction + Android Phone Frame Simulator + Settings */}
+          {/* Desktop Right Actions: New Transaction + Install APK + Android Phone Frame Simulator + Settings */}
           <div className="hidden md:flex items-center gap-2">
+            {onOpenApkModal && (
+              <button
+                type="button"
+                onClick={() => {
+                  tap('light');
+                  onOpenApkModal();
+                }}
+                className="flex items-center gap-1.5 px-3 py-1.5 bg-[#E8F0FE] hover:bg-[#D3E3FD] text-[#0B57D0] rounded-full text-xs font-semibold shadow-2xs active:scale-95 transition-all cursor-pointer min-h-[34px]"
+                title="Install on Android"
+              >
+                <Download size={14} strokeWidth={2.4} />
+                <span>Install APK</span>
+              </button>
+            )}
+
             {onOpenAddModal && (
               <button
                 type="button"

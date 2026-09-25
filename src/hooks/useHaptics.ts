@@ -2,22 +2,21 @@ import { useCallback, useRef } from 'react';
 
 export type HapticType = 'light' | 'medium' | 'heavy' | 'selection' | 'success' | 'warning' | 'error';
 
-// Standard Apple-inspired vibration patterns (in milliseconds)
+// Standard Android Haptic Vibration effects (aligned with Android VibrationEffect constants in ms)
 const VIBRATION_PATTERNS: Record<HapticType, number | number[]> = {
-  selection: 8,
-  light: 12,
-  medium: 22,
-  heavy: 35,
-  success: [15, 60, 25],      // Crisp double-tap like Apple Pay
-  warning: [25, 60, 30],      // Two firm pulses
-  error: [35, 50, 35, 50, 45], // Urgent triple-pulse
+  selection: 6,                 // Android EFFECT_TICK (quick micro-pulse)
+  light: 10,                    // Android EFFECT_CLICK (standard tactile click)
+  medium: 18,                   // Android EFFECT_HEAVY_CLICK (firm tap)
+  heavy: 28,                    // Android EFFECT_DOUBLE_CLICK segment
+  success: [12, 40, 20],        // Android confirmation feedback
+  warning: [20, 50, 25],        // Android warning pulse
+  error: [30, 40, 30, 40, 35],  // Android reject / error burst
 };
 
 /**
- * Custom hook to trigger tactile vibration feedback on mobile and touch devices.
- * Uses the Web Vibration API (`navigator.vibrate`) when available, and provides
- * an optional subtle acoustic Taptic micro-click via Web Audio API for devices
- * that restrict physical vibration (such as iOS WebKit).
+ * Custom hook to trigger tactile vibration feedback on Android & touch devices.
+ * Uses the Web Vibration API (`navigator.vibrate`) with Android-calibrated patterns,
+ * and provides subtle acoustic micro-clicks via Web Audio API as a fallback.
  */
 export function useHaptics() {
   const audioCtxRef = useRef<AudioContext | null>(null);
@@ -41,8 +40,8 @@ export function useHaptics() {
     return audioCtxRef.current;
   }, []);
 
-  // Subtle acoustic micro-thump (Apple Taptic Engine click simulation)
-  const playTactileAudioFeedback = useCallback((frequency: number, durationMs: number, gainValue = 0.04) => {
+  // Subtle acoustic micro-click (Android system tap feedback simulation)
+  const playTactileAudioFeedback = useCallback((frequency: number, durationMs: number, gainValue = 0.035) => {
     try {
       const ctx = getAudioContext();
       if (!ctx) return;
@@ -52,8 +51,7 @@ export function useHaptics() {
 
       osc.type = 'sine';
       osc.frequency.setValueAtTime(frequency, ctx.currentTime);
-      // Quick pitch drop for tactile thud sensation
-      osc.frequency.exponentialRampToValueAtTime(40, ctx.currentTime + durationMs / 1000);
+      osc.frequency.exponentialRampToValueAtTime(50, ctx.currentTime + durationMs / 1000);
 
       gain.gain.setValueAtTime(gainValue, ctx.currentTime);
       gain.gain.exponentialRampToValueAtTime(0.0001, ctx.currentTime + durationMs / 1000);
@@ -73,28 +71,28 @@ export function useHaptics() {
     // 1. Hardware physical vibration via Web Vibration API
     if (typeof window !== 'undefined' && 'navigator' in window && typeof navigator.vibrate === 'function') {
       try {
-        const pattern = VIBRATION_PATTERNS[type] || 15;
+        const pattern = VIBRATION_PATTERNS[type] || 10;
         navigator.vibrate(pattern);
       } catch {
         // Silently catch any platform vibration restrictions
       }
     }
 
-    // 2. High-precision tactile acoustic micro-tick for Apple-like tactile confirmation
+    // 2. High-precision tactile acoustic micro-tick for Android confirmation
     if (type === 'selection') {
-      playTactileAudioFeedback(180, 8, 0.025);
+      playTactileAudioFeedback(200, 6, 0.02);
     } else if (type === 'light') {
-      playTactileAudioFeedback(160, 12, 0.035);
+      playTactileAudioFeedback(170, 10, 0.03);
     } else if (type === 'medium') {
-      playTactileAudioFeedback(130, 18, 0.05);
+      playTactileAudioFeedback(140, 15, 0.04);
     } else if (type === 'heavy') {
-      playTactileAudioFeedback(100, 25, 0.07);
+      playTactileAudioFeedback(110, 22, 0.06);
     } else if (type === 'success') {
-      playTactileAudioFeedback(180, 14, 0.05);
-      setTimeout(() => playTactileAudioFeedback(240, 20, 0.06), 75);
+      playTactileAudioFeedback(190, 12, 0.04);
+      setTimeout(() => playTactileAudioFeedback(260, 18, 0.05), 65);
     } else if (type === 'warning' || type === 'error') {
-      playTactileAudioFeedback(90, 25, 0.06);
-      setTimeout(() => playTactileAudioFeedback(80, 30, 0.07), 80);
+      playTactileAudioFeedback(95, 20, 0.05);
+      setTimeout(() => playTactileAudioFeedback(85, 25, 0.06), 70);
     }
   }, [playTactileAudioFeedback]);
 

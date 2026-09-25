@@ -3,7 +3,11 @@ import { usePWAInstall } from '../hooks/usePWAInstall';
 import { Download, Sparkles, X } from 'lucide-react';
 import { useHaptics } from '../hooks/useHaptics';
 
-export const AndroidInstallBanner: React.FC = () => {
+interface AndroidInstallBannerProps {
+  onOpenApkModal?: () => void;
+}
+
+export const AndroidInstallBanner: React.FC<AndroidInstallBannerProps> = ({ onOpenApkModal }) => {
   const { isInstallable, isInstalled, install } = usePWAInstall();
   const { tap, success } = useHaptics();
   const [isDismissed, setIsDismissed] = useState(false);
@@ -14,9 +18,15 @@ export const AndroidInstallBanner: React.FC = () => {
 
   const handleInstallClick = async () => {
     tap('medium');
-    const installed = await install();
-    if (installed) {
-      success();
+    if (isInstallable) {
+      const installed = await install();
+      if (installed) {
+        success();
+        return;
+      }
+    }
+    if (onOpenApkModal) {
+      onOpenApkModal();
     }
   };
 

@@ -31,6 +31,9 @@ import { TransactionModal } from './components/TransactionModal';
 import { SettingsModal } from './components/SettingsModal';
 import { AndroidInstallBanner } from './components/AndroidInstallBanner';
 import { AndroidSnackbar, SnackbarMessage } from './components/AndroidSnackbar';
+import { AndroidApkModal } from './components/AndroidApkModal';
+import { AndroidQuickSettings } from './components/AndroidQuickSettings';
+import { AndroidRecentsModal } from './components/AndroidRecentsModal';
 import { Wifi, Signal, BatteryMedium, Triangle, Circle, Square } from 'lucide-react';
 
 export default function App() {
@@ -53,10 +56,27 @@ export default function App() {
   const [isModalOpen, setIsModalOpen] = useState(false);
   const [editingTx, setEditingTx] = useState<Transaction | null>(null);
   const [isSettingsOpen, setIsSettingsOpen] = useState(false);
+  const [isApkModalOpen, setIsApkModalOpen] = useState(false);
+  const [isQuickSettingsOpen, setIsQuickSettingsOpen] = useState(false);
+  const [isRecentsOpen, setIsRecentsOpen] = useState(false);
 
-  // Android Mobile Phone Simulator Mode
-  const [isMobileSimulator, setIsMobileSimulator] = useState(false);
-  const [useThreeButtonNav, setUseThreeButtonNav] = useState(false);
+  // Android Mobile Phone Simulator Mode (Default true to showcase authentic Android experience)
+  const [isMobileSimulator, setIsMobileSimulator] = useState(true);
+  const [useThreeButtonNav, setUseThreeButtonNav] = useState(true);
+
+  // Real-time Android System Clock
+  const [currentTime, setCurrentTime] = useState(() => {
+    const d = new Date();
+    return d.toLocaleTimeString([], { hour: '2-digit', minute: '2-digit', hour12: false });
+  });
+
+  useEffect(() => {
+    const timer = setInterval(() => {
+      const d = new Date();
+      setCurrentTime(d.toLocaleTimeString([], { hour: '2-digit', minute: '2-digit', hour12: false }));
+    }, 10000);
+    return () => clearInterval(timer);
+  }, []);
 
   // Android Snackbar Feedback
   const [snackbar, setSnackbar] = useState<SnackbarMessage | null>(null);
@@ -64,7 +84,13 @@ export default function App() {
   // Android Back Navigation (Hardware / Browser Popstate)
   useEffect(() => {
     const handlePopState = () => {
-      if (isModalOpen) {
+      if (isQuickSettingsOpen) {
+        setIsQuickSettingsOpen(false);
+      } else if (isRecentsOpen) {
+        setIsRecentsOpen(false);
+      } else if (isApkModalOpen) {
+        setIsApkModalOpen(false);
+      } else if (isModalOpen) {
         setIsModalOpen(false);
         setEditingTx(null);
       } else if (isSettingsOpen) {
@@ -75,7 +101,7 @@ export default function App() {
     };
     window.addEventListener('popstate', handlePopState);
     return () => window.removeEventListener('popstate', handlePopState);
-  }, [isModalOpen, isSettingsOpen, activeTab]);
+  }, [isQuickSettingsOpen, isRecentsOpen, isApkModalOpen, isModalOpen, isSettingsOpen, activeTab]);
 
   const openTransactionModal = (tx: Transaction | null = null) => {
     tap('medium');
@@ -105,7 +131,13 @@ export default function App() {
 
   const handleAndroidBackButton = () => {
     tap('light');
-    if (isModalOpen) {
+    if (isQuickSettingsOpen) {
+      setIsQuickSettingsOpen(false);
+    } else if (isRecentsOpen) {
+      setIsRecentsOpen(false);
+    } else if (isApkModalOpen) {
+      setIsApkModalOpen(false);
+    } else if (isModalOpen) {
       closeTransactionModal();
     } else if (isSettingsOpen) {
       closeSettingsModal();
@@ -114,7 +146,7 @@ export default function App() {
     } else {
       setSnackbar({
         id: String(Date.now()),
-        text: 'Press Home or switch tabs to navigate',
+        text: 'Aether is running in background • Press Home to minimize',
         type: 'info',
       });
     }
@@ -122,18 +154,17 @@ export default function App() {
 
   const handleAndroidHomeButton = () => {
     tap('light');
+    setIsQuickSettingsOpen(false);
+    setIsRecentsOpen(false);
+    setIsApkModalOpen(false);
     if (isModalOpen) closeTransactionModal();
     if (isSettingsOpen) closeSettingsModal();
     setActiveTab('ledger');
   };
 
   const handleAndroidRecentsButton = () => {
-    tap('heavy');
-    setSnackbar({
-      id: String(Date.now()),
-      text: 'Aether Finance is running active in background',
-      type: 'info',
-    });
+    tap('medium');
+    setIsRecentsOpen(true);
   };
 
   const handleTabChange = (tab: ActiveTab) => {
@@ -370,17 +401,24 @@ export default function App() {
       <div
         className={`w-full flex-1 flex flex-col transition-all duration-300 ${
           isMobileSimulator
-            ? 'max-w-[412px] my-3 sm:my-6 rounded-[44px] border-[10px] border-[#202124] shadow-[0_25px_60px_rgba(0,0,0,0.35)] overflow-hidden bg-[#F0F4F9] min-h-[92vh] relative'
+            ? 'max-w-[420px] max-sm:max-w-none max-sm:my-0 max-sm:border-0 max-sm:rounded-none max-sm:shadow-none sm:my-5 sm:rounded-[44px] sm:border-[10px] sm:border-[#202124] shadow-[0_25px_60px_rgba(0,0,0,0.35)] overflow-hidden bg-[#F0F4F9] min-h-[92vh] max-sm:min-h-screen relative'
             : 'max-w-7xl mx-auto'
         }`}
       >
         {/* Simulated Android Status Bar (Visible in Android Phone Mode) */}
         {isMobileSimulator && (
-          <div className="w-full bg-[#F0F4F9] pt-2 px-5 pb-1 flex items-center justify-between text-[11px] font-medium text-[#1F1F1F] select-none shrink-0 z-40 border-b border-[#E0E2EC]/50">
+          <div
+            onClick={() => {
+              tap('light');
+              setIsQuickSettingsOpen(true);
+            }}
+            className="w-full bg-[#F0F4F9] pt-2 px-5 pb-1 flex items-center justify-between text-[11px] font-medium text-[#1F1F1F] select-none shrink-0 z-40 border-b border-[#E0E2EC]/50 cursor-pointer hover:bg-[#E8F0FE]/60 transition-colors"
+            title="Tap to pull down Android Quick Settings & Notifications"
+          >
             {/* Clock & Notification indicator */}
             <div className="flex items-center gap-1.5 font-bold">
-              <span>9:30</span>
-              <span className="w-1.5 h-1.5 rounded-full bg-[#0B57D0]" title="Notification" />
+              <span>{currentTime}</span>
+              <span className="w-1.5 h-1.5 rounded-full bg-[#0B57D0]" title="Aether notification active" />
             </div>
 
             {/* Central Android Camera Punch-Hole */}
@@ -390,10 +428,11 @@ export default function App() {
 
             {/* Android Status Icons */}
             <div className="flex items-center gap-1.5 text-[10px]">
+              <span className="text-[9px] font-bold text-[#444746] mr-0.5">5G</span>
               <Wifi size={12} strokeWidth={2.4} />
               <Signal size={12} strokeWidth={2.4} />
               <div className="flex items-center gap-0.5 font-semibold text-[10px]">
-                <span>85%</span>
+                <span>88%</span>
                 <BatteryMedium size={13} strokeWidth={2.2} />
               </div>
             </div>
@@ -401,7 +440,7 @@ export default function App() {
         )}
 
         {/* In-App Android PWA Install Banner */}
-        <AndroidInstallBanner />
+        <AndroidInstallBanner onOpenApkModal={() => setIsApkModalOpen(true)} />
 
         {/* Android Material Design 3 Top App Bar */}
         <Header
@@ -417,6 +456,7 @@ export default function App() {
           currency={currency}
           onTabChange={handleTabChange}
           onOpenAddModal={() => openTransactionModal(null)}
+          onOpenApkModal={() => setIsApkModalOpen(true)}
         />
 
         {/* Main Tab Content */}
@@ -577,6 +617,33 @@ export default function App() {
           tags={tags}
           onResetData={handleResetData}
           onImportData={handleImportData}
+        />
+
+        {/* Android Quick Settings & Notification Shade */}
+        <AndroidQuickSettings
+          isOpen={isQuickSettingsOpen}
+          onClose={() => setIsQuickSettingsOpen(false)}
+          onOpenAddModal={() => openTransactionModal(null)}
+          onOpenWallet={() => setActiveTab('ledger')}
+          currencySymbol={currency.symbol}
+          monthlyBudget={budget.monthlyLimit}
+          totalExpense={periodExpense}
+        />
+
+        {/* Android Recent Apps Multitasking Switcher */}
+        <AndroidRecentsModal
+          isOpen={isRecentsOpen}
+          onClose={() => setIsRecentsOpen(false)}
+          onSelectApp={() => {
+            setActiveTab('ledger');
+            setIsRecentsOpen(false);
+          }}
+        />
+
+        {/* Android APK & Install Hub Modal */}
+        <AndroidApkModal
+          isOpen={isApkModalOpen}
+          onClose={() => setIsApkModalOpen(false)}
         />
 
         {/* Material Design 3 Snackbar Toast */}
