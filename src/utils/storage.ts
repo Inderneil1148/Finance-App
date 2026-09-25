@@ -3,12 +3,24 @@ import { DEFAULT_TAGS } from './constants';
 import { SUPPORTED_CURRENCIES } from './formatters';
 
 const STORAGE_KEYS = {
+  TRANSACTIONS: 'numi_finance_transactions',
+  TAGS: 'numi_finance_tags',
+  CURRENCY: 'numi_finance_currency',
+  BUDGET: 'numi_finance_budget',
+  THEME: 'numi_finance_theme',
+};
+
+const LEGACY_STORAGE_KEYS = {
   TRANSACTIONS: 'aether_finance_transactions',
   TAGS: 'aether_finance_tags',
   CURRENCY: 'aether_finance_currency',
   BUDGET: 'aether_finance_budget',
   THEME: 'aether_finance_theme',
 };
+
+function getStoredItem(key: keyof typeof STORAGE_KEYS): string | null {
+  return localStorage.getItem(STORAGE_KEYS[key]) ?? localStorage.getItem(LEGACY_STORAGE_KEYS[key]);
+}
 
 // Generates dynamic dates relative to today
 function getOffsetDate(dayOffset: number): string {
@@ -219,7 +231,7 @@ export function generateSeedTransactions(): Transaction[] {
 
 export function loadStoredTransactions(): Transaction[] {
   try {
-    const raw = localStorage.getItem(STORAGE_KEYS.TRANSACTIONS);
+    const raw = getStoredItem('TRANSACTIONS');
     if (!raw) {
       const seeded = generateSeedTransactions();
       saveTransactions(seeded);
@@ -253,7 +265,7 @@ export function saveTransactions(transactions: Transaction[]): void {
 
 export function loadStoredTags(): CustomTag[] {
   try {
-    const raw = localStorage.getItem(STORAGE_KEYS.TAGS);
+    const raw = getStoredItem('TAGS');
     if (!raw) {
       saveStoredTags(DEFAULT_TAGS);
       return DEFAULT_TAGS;
@@ -281,7 +293,7 @@ export function loadStoredCurrency(): CurrencyConfig {
     placement: 'prefix',
   };
   try {
-    const raw = localStorage.getItem(STORAGE_KEYS.CURRENCY);
+    const raw = getStoredItem('CURRENCY');
     if (!raw) {
       saveStoredCurrency(inr);
       return inr;
@@ -309,7 +321,7 @@ export function saveStoredCurrency(currency: CurrencyConfig): void {
 
 export function loadStoredBudget(): BudgetConfig {
   try {
-    const raw = localStorage.getItem(STORAGE_KEYS.BUDGET);
+    const raw = getStoredItem('BUDGET');
     if (!raw) {
       return { monthlyLimit: 50000, categories: {} };
     }
@@ -352,7 +364,7 @@ export function exportToCSV(transactions: Transaction[], currencySymbol: string)
   const url = URL.createObjectURL(blob);
   const link = document.createElement('a');
   link.setAttribute('href', url);
-  link.setAttribute('download', `aether-finance-${getOffsetDate(0)}.csv`);
+  link.setAttribute('download', `numi-transactions-${getOffsetDate(0)}.csv`);
   document.body.appendChild(link);
   link.click();
   document.body.removeChild(link);
